@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utku Yurtsever Çelikel | Edebiyat Blogu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c1810;
+            --secondary: #8b4513;
+            --accent: #c9a227;
+            --cream: #faf8f5;
+            --paper: #f5f0e8;
+            --ink: #1a1a1a;
+            --muted: #6b5b4f;
+        }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            background-color: var(--cream);
+            color: var(--ink);
+            line-height: 1.8;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(180deg, var(--primary) 0%, #3d2317 100%);
+            color: var(--cream);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .quill-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        header .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            opacity: 0.9;
+            letter-spacing: 2px;
+        }
+
+        .author-name {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--paper);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 20px 35px;
+            text-decoration: none;
+            color: var(--primary);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 60%;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 70px 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+        }
+
+        /* Blog Posts */
+        .posts {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .post-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(0,0,0,0.1);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+        }
+
+        .post-image.poetry {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        .post-image.novel {
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c2a 50%, #6b3a3a 100%);
+        }
+
+        .post-image.essay {
+            background: linear-gradient(135deg, #1d3c45 0%, #2d5a4a 50%, #3d7a5a 100%);
+        }
+
+        .post-image.classic {
+            background: linear-gradient(135deg, #3d3d3d 0%, #5a4a3a 50%, #7a6a5a 100%);
+        }
+
+        .post-image.story {
+            background: linear-gradient(135deg, #4a1942 0%, #6b2a5a 50%, #8b3a6a 100%);
+        }
+
+        .post-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.8;
+        }
+
+        .post-content {
+            padding: 35px 40px 40px;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 18px;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 1px;
+        }
+
+        .category {
+            background: var(--primary);
+            color: var(--cream);
+            padding: 5px 14px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .post-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 18px;
+            color: var(--primary);
+            line-height: 1.4;
+        }
+
+        .post-content h2 a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        .post-content h2 a:hover {
+            color: var(--secondary);
+        }
+
+        .post-excerpt {
+            color: var(--muted);
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        .post-excerpt .first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            float: left;
+            line-height: 1;
+            margin-right: 10px;
+            margin-top: 5px;
+            color: var(--secondary);
+        }
+
+        .read-more {
+            display: inline-block;
+            color: var(--secondary);
+            text-decoration: none;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .read-more:hover {
+            border-bottom-color: var(--secondary);
+        }
+
+        /* Quote Block */
+        .featured-quote {
+            background: var(--primary);
+            color: var(--cream);
+            padding: 50px 40px;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .featured-quote::before {
+            content: '"';
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            opacity: 0.15;
+            line-height: 1;
+        }
+
+        .featured-quote blockquote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-style: italic;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .featured-quote cite {
+            font-family: 'Lora', serif;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .sidebar-widget {
+            background: white;
+            padding: 35px;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.04);
+        }
+
+        .sidebar-widget h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        /* Author Box */
+        .author-box {
+            text-align: center;
+        }
+
+        .author-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--cream);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .author-box h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .author-box .title {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--secondary);
+            font-style: italic;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .author-box p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Search */
+        .search-box {
+            display: flex;
+            border: 1px solid #ddd;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 14px 18px;
+            border: none;
+            font-family: 'Lora', serif;
+            font-size: 0.95rem;
+            background: var(--cream);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            background: white;
+        }
+
+        .search-box button {
+            padding: 14px 22px;
+            background: var(--primary);
+            color: var(--cream);
+            border: none;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 1px;
+            transition: background 0.3s ease;
+        }
+
+        .search-box button:hover {
+            background: var(--secondary);
+        }
+
+        /* Categories */
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+
+        .category-list a {
+            text-decoration: none;
+            color: var(--ink);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .category-list a:hover {
+            color: var(--secondary);
+        }
+
+        .category-list span {
+            background: var(--paper);
+            padding: 3px 12px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* Recent Posts */
+        .recent-post {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recent-post:first-of-type {
+            padding-top: 0;
+        }
+
+        .recent-post:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .recent-post-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--accent);
+            opacity: 0.6;
+            line-height: 1;
+            min-width: 35px;
+        }
+
+        .recent-post-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .recent-post-info h4 a {
+            text-decoration: none;
+            color: var(--ink);
+            transition: color 0.3s ease;
+        }
+
+        .recent-post-info h4 a:hover {
+            color: var(--secondary);
+        }
+
+        .recent-post-info span {
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Newsletter */
+        .newsletter p {
+            color: var(--muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .newsletter input[type="email"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+            font-family: 'Lora', serif;
+            font-size: 0.95rem;
+            background: var(--cream);
+        }
+
+        .newsletter input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .newsletter button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: var(--cream);
+            border: none;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .newsletter button:hover {
+            background: var(--secondary);
+        }
+
+        /* Book Shelf */
+        .bookshelf {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .book {
+            width: 45px;
+            height: 65px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: white;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .book:hover {
+            transform: translateY(-5px);
+        }
+
+        .book.b1 { background: #8b4513; }
+        .book.b2 { background: #2c1810; }
+        .book.b3 { background: #1a1a2e; }
+        .book.b4 { background: #4a1942; }
+        .book.b5 { background: #1d3c45; }
+        .book.b6 { background: #6b3a3a; }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: rgba(255,255,255,0.8);
+            padding: 70px 20px 40px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 50px;
+        }
+
+        .footer-section h4 {
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .footer-section p {
+            line-height: 1.9;
+            font-size: 0.95rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-links a {
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom .signature {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 700px) {
+            header h1 {
+                font-size: 2.2rem;
+                letter-spacing: 2px;
+            }
+
+            header .subtitle {
+                font-size: 1.1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+            }
+
+            nav ul li a {
+                padding: 15px 20px;
+                font-size: 0.95rem;
+            }
+
+            .post-content {
+                padding: 25px;
+            }
+
+            .post-content h2 {
+                font-size: 1.4rem;
+            }
+
+            .featured-quote {
+                padding: 35px 25px;
+            }
+
+            .featured-quote blockquote {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="quill-icon">✒️</div>
+            <h1>Kalem İzleri</h1>
+            <p class="subtitle">Edebiyatın Sessiz Sığınağı</p>
+            <p class="author-name">Utku Yurtsever Çelikel</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Ana Sayfa</a></li>
+            <li><a href="#">Denemeler</a></li>
+            <li><a href="#">Şiir</a></li>
+            <li><a href="#">Eleştiri</a></li>
+            <li><a href="#">Kitaplık</a></li>
+            <li><a href="#">Hakkımda</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="posts">
+            <article class="post-card">
+                <div class="post-image poetry">📜</div>
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span class="category">Şiir İncelemesi</span>
+                        <span>10 Ocak 2026</span>
+                    </div>
+                    <h2><a href="#">Cemal Süreya'nın Şiirlerinde Aşkın Metamorfozu</a></h2>
+                    <p class="post-excerpt"><span class="first-letter">A</span>şk, Cemal Süreya'nın şiirlerinde yalnızca bir duygu değil; dilin kendisini yeniden yarattığı bir alandır. İkinci Yeni'nin bu büyük ustası, sevgiyi sözcüklerin arasına gizlemiş, onu bulması için okura bir labirent sunmuştur...</p>
+                    <a href="#" class="read-more">Yazının Devamı →</a>
+                </div>
+            </article>
+
+            <div class="featured-quote">
+                <blockquote>
+                    "Edebiyat, insanın kendi sesini duyabildiği tek yerdir; 
+                    orada yalnız değilizdir, orada anlaşılırız."
+                </blockquote>
+                <cite>— Utku Yurtsever Çelikel</cite>
+            </div>
+
+            <article class="post-card">
+                <div class="post-image novel">📚</div>
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span class="category">Roman Eleştirisi</span>
+                        <span>5 Ocak 2026</span>
+                    </div>
+                    <h2><a href="#">Tutunamayanlar: Bir Neslin Varoluşsal Çığlığı</a></h2>
+                    <p class="post-excerpt"><span class="first-letter">O</span>ğuz Atay'ın başyapıtı, Türk edebiyatında bir kırılma noktasıdır. Roman, yalnızca bir anlatı değil; aydın bireyin toplumla hesaplaşmasının, yabancılaşmanın ve kimlik arayışının manifestosudur...</p>
+                    <a href="#" class="read-more">Yazının Devamı →</a>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-image essay">🪶</div>
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span class="category">Deneme</span>
+                        <span>28 Aralık 2025</span>
+                    </div>
+                    <h2><a href="#">Yalnızlığın Edebiyattaki Yansımaları</a></h2>
+                    <p class="post-excerpt"><span class="first-letter">Y</span>alnızlık, yazarın hem laneti hem de ilham kaynağıdır. Kafka'nın odasından Woolf'un deniz fenerine, Pamuk'un kar yağan kasabasından Sabahattin Ali'nin hapishanesine uzanan bu yolculukta, yalnızlığın edebiyatı nasıl şekillendirdiğini keşfediyoruz...</p>
+                    <a href="#" class="read-more">Yazının Devamı →</a>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-image classic">📖</div>
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span class="category">Klasik Okumalar</span>
+                        <span>20 Aralık 2025</span>
+                    </div>
+                    <h2><a href="#">Dostoyevski'yi Yeniden Okumak: Suç ve Ceza'da Vicdan</a></h2>
+                    <p class="post-excerpt"><span class="first-letter">R</span>askolnikov'un baltası, yalnızca bir cinayetin değil, modern insanın ahlaki çöküşünün de sembolüdür. Dostoyevski, bu romanla insan ruhunun en karanlık köşelerine ışık tutmuş ve edebiyat tarihinin en unutulmaz psikolojik portresini çizmiştir...</p>
+                    <a href="#" class="read-more">Yazının Devamı →</a>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-image story">✨</div>
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span class="category">Öykü</span>
+                        <span>15 Aralık 2025</span>
+                    </div>
+                    <h2><a href="#">Sait Faik'in İstanbul'u: Sokakların Şairi</a></h2>
+                    <p class="post-excerpt"><span class="first-letter">S</span>ait Faik, İstanbul'un sokaklarını, balıkçılarını, yalnız adamlarını ve küçük insanlarını edebiyatımıza kazandıran bir ustadır. Onun öykülerinde şehir, bir dekor değil; yaşayan, nefes alan bir karakterdir...</p>
+                    <a href="#" class="read-more">Yazının Devamı →</a>
+                </div>
+            </article>
+        </section>
+
+        <aside class="sidebar">
+            <div class="sidebar-widget author-box">
+                <div class="author-avatar">U</div>
+                <h4>Utku Yurtsever Çelikel</h4>
+                <p class="title">Yazar & Edebiyat Eleştirmeni</p>
+                <p>Edebiyatın büyülü dünyasında kaybolmayı seven, kelimelerin gücüne inanan bir kalem. Klasiklerden moderne, şiirden romana uzanan geniş bir yelpazede yazıyorum.</p>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Yazı Ara</h3>
+                <div class="search-box">
+                    <input type="text" placeholder="Anahtar kelime...">
+                    <button>Ara</button>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Kategoriler</h3>
+                <ul class="category-list">
+                    <li><a href="#">Şiir İncelemesi</a> <span>14</span></li>
+                    <li><a href="#">Roman Eleştirisi</a> <span>23</span></li>
+                    <li><a href="#">Deneme</a> <span>31</span></li>
+                    <li><a href="#">Klasik Okumalar</a> <span>18</span></li>
+                    <li><a href="#">Öykü Analizi</a> <span>12</span></li>
+                    <li><a href="#">Dünya Edebiyatı</a> <span>27</span></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Son Yazılar</h3>
+                <div class="recent-post">
+                    <span class="recent-post-number">01</span>
+                    <div class="recent-post-info">
+                        <h4><a href="#">Nazım Hikmet ve Umudun Şiiri</a></h4>
+                        <span>8 Ocak 2026</span>
+                    </div>
+                </div>
+                <div class="recent-post">
+                    <span class="recent-post-number">02</span>
+                    <div class="recent-post-info">
+                        <h4><a href="#">Tanpınar'ın Zaman Algısı</a></h4>
+                        <span>3 Ocak 2026</span>
+                    </div>
+                </div>
+                <div class="recent-post">
+                    <span class="recent-post-number">03</span>
+                    <div class="recent-post-info">
+                        <h4><a href="#">Postmodern Anlatının Öncüleri</a></h4>
+                        <span>25 Aralık 2025</span>
+                    </div>
+                </div>
+                <div class="recent-post">
+                    <span class="recent-post-number">04</span>
+                    <div class="recent-post-info">
+                        <h4><a href="#">Kafka ve Absürt Gerçeklik</a></h4>
+                        <span>18 Aralık 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Kitaplığımdan</h3>
+                <div class="bookshelf">
+                    <div class="book b1" title="Suç ve Ceza">S&C</div>
+                    <div class="book b2" title="Tutunamayanlar">TUT</div>
+                    <div class="book b3" title="Huzur">HZR</div>
+                    <div class="book b4" title="Kürk Mantolu Madonna">KMM</div>
+                    <div class="book b5" title="Sefiller">SEF</div>
+                    <div class="book b6" title="Simyacı">SİM</div>
+                    <div class="book b3" title="1984">1984</div>
+                    <div class="book b1" title="Beyaz Gemi">BYZ</div>
+                    <div class="book b4" title="Satranç">STR</div>
+                    <div class="book b2" title="Körlük">KÖR</div>
+                </div>
+            </div>
+
+            <div class="sidebar-widget newsletter">
+                <h3>Bülten</h3>
+                <p>Yeni yazılardan ve edebiyat dünyasındaki gelişmelerden haberdar olmak için abone olun.</p>
+                <input type="email" placeholder="E-posta adresiniz">
+                <button>Abone Ol</button>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Kalem İzleri Hakkında</h4>
+                <p>Bu blog, edebiyata duyulan derin bir sevgiyle kurulmuştur. Burada klasiklerden modern eserlere, yerli yazarlardan dünya edebiyatının devlerine uzanan bir yolculuğa çıkıyoruz. Her yazı, bir eserin ruhuna dokunma çabasıdır.</p>
+                <div class="social-links">
+                    <a href="#" title="Twitter">𝕏</a>
+                    <a href="#" title="Instagram">ig</a>
+                    <a href="#" title="Goodreads">gr</a>
+                    <a href="#" title="Medium">M</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Kategoriler</h4>
+                <ul>
+                    <li><a href="#">Şiir İncelemesi</a></li>
+                    <li><a href="#">Roman Eleştirisi</a></li>
+                    <li><a href="#">Denemeler</a></li>
+                    <li><a href="#">Klasik Okumalar</a></li>
+                    <li><a href="#">Dünya Edebiyatı</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <ul>
+                    <li><a href="#">utku@kalemizleri.com</a></li>
+                    <li><a href="#">Twitter: @utkuyc</a></li>
+                    <li><a href="#">İstanbul, Türkiye</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Kalem İzleri. Tüm hakları saklıdır.</p>
+            <p class="signature">Utku Yurtsever Çelikel</p>
+        </div>
+    </footer>
+</body>
+</html>
